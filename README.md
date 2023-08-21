@@ -1,0 +1,2 @@
+# DiscordScheduleNotifier
+Google Calendar APIを使ってDiscordに予定を通知するプログラムです

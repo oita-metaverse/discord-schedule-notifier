@@ -3,6 +3,14 @@ from google_calendar import get_calendar
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import re
+
+
+def remove_tags(text):
+    # <a>タグの中のテキストをURLに置換する
+    cleaned_text = re.sub(r'<a\s+href="([^"]+)">[^<]+</a>', r'\1', text)
+    return cleaned_text
+
 
 # 日時の設定
 today = datetime.now().date()
@@ -47,6 +55,10 @@ for event_date, events in sorted(events_by_date.items()):
         formatted_start_time = start_time.strftime("%H:%M")
         formatted_end_time = end_time.strftime("%H:%M")
         content += f"- {formatted_start_time} - {formatted_end_time}　{event_name}\n"
+
+        if "description" in event:
+            txt = remove_tags(event["description"])
+            content += f"   - {txt}\n"
 
 content = content[:-1]
 
